@@ -1,0 +1,21 @@
+# Python environments and caches
+.venv/
+__pycache__/
+*.py[cod]
+
+# Local Odoo data and logs
+filestore/
+logs/
+*.log
+
+# Local configuration may contain credentials
+odoo-learning.conf
+
+# Odoo source code is separate from our custom module
+odoo/
+
+# Editor temporary files
+*.swp
+*.swo
+.*.swp
+.*.swo

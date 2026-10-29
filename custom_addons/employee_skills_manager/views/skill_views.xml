@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_employee_skill_list" model="ir.ui.view">
+        <field name="name">employee.skill.list</field>
+        <field name="model">employee.skill</field>
+        <field name="arch" type="xml">
+            <list string="Employee Skills"
+                  default_order="employee_id, name"
+                  decoration-warning="level == 'beginner'"
+                  decoration-info="level == 'intermediate'"
+                  decoration-success="level in ['advanced', 'expert']">
+                <field name="employee_id"/>
+                <field name="name"/>
+                <field name="level" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_employee_skill_form" model="ir.ui.view">
+        <field name="name">employee.skill.form</field>
+        <field name="model">employee.skill</field>
+        <field name="arch" type="xml">
+            <form string="Employee Skill">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name"
+                                   placeholder="e.g. Python, Accounting, Project Management"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Employee Information">
+                                <field name="employee_id"/>
+                            </group>
+                            <group string="Proficiency">
+                                <field name="level" widget="radio"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_employee_skill_search" model="ir.ui.view">
+            <field name="name">employee.skill.search</field>
+            <field name="model">employee.skill</field>
+            <field name="arch" type="xml">
+                <search string="Search Employee Skills">
+                    <field name="employee_id"/>
+                    <field name="name"/>
+                    <field name="level"/>
+
+                    <separator/>
+
+                    <filter name="beginner"
+                            string="Beginner"
+                            domain="[('level', '=', 'beginner')]"/>
+                    <filter name="intermediate"
+                            string="Intermediate"
+                            domain="[('level', '=', 'intermediate')]"/>
+                    <filter name="advanced"
+                            string="Advanced"
+                            domain="[('level', '=', 'advanced')]"/>
+                    <filter name="expert"
+                            string="Expert"
+                            domain="[('level', '=', 'expert')]"/>
+                    <filter name="unassigned"
+                            string="No Employee Assigned"
+                            domain="[('employee_id', '=', False)]"/>
+
+                   <group>
+                        <filter name="group_employee"
+                                string="Employee"
+                                context="{'group_by': 'employee_id'}"/>
+                        <filter name="group_level"
+                                string="Skill Level"
+                                context="{'group_by': 'level'}"/>
+                        </group>
+                    </search>
+                </field>
+            </record>
+
+            <record id="action_employee_skill" model="ir.actions.act_window">
+                <field name="name">Skills</field>
+                <field name="res_model">employee.skill</field>
+                <field name="view_mode">list,form</field>
+                <field name="search_view_id" ref="view_employee_skill_search"/>
+                <field name="help" type="html">
+                    <p class="o_view_nocontent_smiling_face">
+                        Record your first employee skill.
+                    </p>
+                    <p>
+                        Track employee competencies and proficiency levels
+                        to help HR understand the skills available in the workforce.
+                    </p>
+                </field>
+            </record>
+
+            <menuitem id="menu_employee_skills_root"
+                      name="Employee Skills Manager"
+                      sequence="10"/>
+
+            <menuitem id="menu_employee_skills"
+                      name="Skills"
+                      parent="menu_employee_skills_root"
+                      action="action_employee_skill"
+                      sequence="10"/>
+
+            </odoo>
